@@ -131,3 +131,15 @@ def list_documents(user: dict = Depends(verify_user)):
         return {"tenant_id": user["tenant_id"], "count": len(rows), "documents": [dict(r) for r in rows]}
     finally:
         conn.close()
+
+from fastapi.middleware.cors import CORSMiddleware
+from services.api.day05_routes import router as day05_router
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.include_router(day05_router)
